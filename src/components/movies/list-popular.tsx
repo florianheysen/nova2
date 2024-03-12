@@ -3,6 +3,7 @@
 import { usePopularMovies } from "@/query/movies";
 import { MovieCard } from "@/components/movie-card";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { MovieSearch } from "../movie-search";
 
 export default function PopularMovies() {
   const popularMoviesQuery = usePopularMovies();
@@ -20,11 +21,13 @@ export default function PopularMovies() {
         {popularMovies?.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
-        <div className="group w-full h-[calc(100%-10px)] rounded-sm bg-primary/10 hover:bg-primary/15 flex items-center justify-center cursor-pointer">
-          <div className="flex flex-col items-center text-sm">
-            <MagnifyingGlassIcon className="h-5 w-5 group-hover:h-6 group-hover:w-6" />
+        <MovieSearch>
+          <div className="group hidden w-full h-[calc(100%-10px)] rounded-sm bg-primary/10 hover:bg-primary/15 lg:flex items-center justify-center cursor-pointer">
+            <div className="flex flex-col items-center text-sm">
+              <MagnifyingGlassIcon className="h-5 w-5 group-hover:h-6 group-hover:w-6" />
+            </div>
           </div>
-        </div>
+        </MovieSearch>
       </div>
     </div>
   );

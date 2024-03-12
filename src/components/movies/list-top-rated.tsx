@@ -2,6 +2,8 @@
 
 import { useTopRatedMovies } from "@/query/movies";
 import { MovieCard } from "@/components/movie-card";
+import { MovieSearch } from "../movie-search";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 export default function TopRatedMovies() {
   const topRatedMoviesQuery = useTopRatedMovies();
@@ -19,9 +21,13 @@ export default function TopRatedMovies() {
         {topRatedMovies?.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
-        <div className="overflow-hidden rounded-sm">
-          <div className="w-full h-[calc(100%-30px)] bg-primary/10"></div>
-        </div>
+        <MovieSearch>
+          <div className="group hidden w-full h-[calc(100%-10px)] rounded-sm bg-primary/10 hover:bg-primary/15 lg:flex items-center justify-center cursor-pointer">
+            <div className="flex flex-col items-center text-sm">
+              <MagnifyingGlassIcon className="h-5 w-5 group-hover:h-6 group-hover:w-6" />
+            </div>
+          </div>
+        </MovieSearch>
       </div>
     </div>
   );

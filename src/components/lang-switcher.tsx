@@ -43,14 +43,14 @@ export function LanguageSwitcher() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[150px] justify-between"
         >
           {languages.find((lang) => lang.code === language)?.label ||
             "Select Language"}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[150px] p-0">
         {languages.map((lang) => (
           <div
             key={lang.code}
@@ -58,9 +58,9 @@ export function LanguageSwitcher() {
               setLanguage(lang.code);
               setOpen(false);
             }}
-            className="flex items-center justify-between p-2 cursor-pointer hover:bg-primary/5"
+            className="flex items-center justify-between p-2 pl-4 cursor-pointer hover:bg-primary/5"
           >
-            <span>{lang.label}</span>
+            <span className="text-sm font-medium">{lang.label}</span>
             {language === lang.code && <CheckIcon className="h-4 w-4" />}
           </div>
         ))}

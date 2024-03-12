@@ -40,7 +40,7 @@ export function MovieSearch({ children }: { children: React.ReactNode }) {
   }
 
   const handleSearch = () => {
-    if (searchQuery.trim().length > 3) {
+    if (searchQuery.trim().length > 2) {
       fetch(
         `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&language=${getLanguageCode(
           language
@@ -94,7 +94,9 @@ export function MovieSearch({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <div onClick={() => setOpen(true)}>{children}</div>
+      <div className="w-full h-full" onClick={() => setOpen(true)}>
+        {children}
+      </div>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Input
           className="h-12"

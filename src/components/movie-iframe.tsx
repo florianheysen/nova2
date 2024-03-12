@@ -1,9 +1,10 @@
 "use client";
 
-import { ServerCrash } from "lucide-react";
+import { LoaderCircle, ServerCrash } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 type MovieIframeProps = {
   movieId: string;
@@ -12,6 +13,11 @@ type MovieIframeProps = {
 export default function MovieIframe({ movieId }: MovieIframeProps) {
   const [language, setLanguage] = useLocalStorage("supernova-lang", "en");
   const [isValidLink, setIsValidLink] = useState<boolean>(true);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+
+  const handleIframeLoad = () => {
+    setIframeLoaded(true);
+  };
 
   const url_fr = `https://frembed.fun/api/film.php?id=${movieId}`;
   const url_en = `https://multiembed.mov/?video_id=${movieId}&tmdb=1`;
@@ -59,6 +65,18 @@ export default function MovieIframe({ movieId }: MovieIframeProps) {
   }
 
   return (
-    <iframe allowFullScreen className="w-sceen h-screen" src={iframeUrl} />
+    <>
+      {!iframeLoaded && (
+        <div className="flex justify-center items-center h-screen w-screen">
+          <LoaderCircle className="w-4 h-4 animate-spin" />
+        </div>
+      )}
+      <iframe
+        allowFullScreen
+        onLoad={handleIframeLoad}
+        className={cn("h-screen w-screen", !iframeLoaded && "hidden")}
+        src={iframeUrl}
+      />
+    </>
   );
 }
