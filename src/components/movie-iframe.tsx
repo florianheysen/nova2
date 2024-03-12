@@ -10,7 +10,7 @@ type MovieIframeProps = {
 };
 
 export default function MovieIframe({ movieId }: MovieIframeProps) {
-  const [language, setLanguage] = useLocalStorage("nova-lang", "en");
+  const [language, setLanguage] = useLocalStorage("supernova-lang", "en");
   const [isValidLink, setIsValidLink] = useState<boolean>(true);
 
   const url_fr = `https://frembed.fun/api/film.php?id=${movieId}`;

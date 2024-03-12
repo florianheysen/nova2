@@ -12,19 +12,39 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import { Movie } from "@/data/movie/types";
-import { debounce } from "lodash";
+import { throttle } from "lodash";
 import { useRouter } from "next/navigation";
+import { useLocalStorage } from "usehooks-ts";
 
-export function MovieSearch() {
+export function MovieSearch({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const [language] = useLocalStorage("supernova-lang", "en");
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
 
+  function getLanguageCode(input: string) {
+    const languageMap: { [key: string]: string } = {
+      fr: "fr-FR",
+      en: "en-US",
+    };
+    return languageMap[input] || "en-US";
+  }
+
+  function getLanguageString(input: string) {
+    const languageMap: { [key: string]: string } = {
+      fr: "français",
+      en: "anglais",
+    };
+    return languageMap[input] || "anglais";
+  }
+
   const handleSearch = () => {
-    if (searchQuery.trim() !== "") {
+    if (searchQuery.trim().length > 3) {
       fetch(
-        `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&api_key=534c59cdf18dcdecc1fbd0057402dede`
+        `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&language=${getLanguageCode(
+          language
+        )}&api_key=534c59cdf18dcdecc1fbd0057402dede`
       )
         .then((response) => {
           if (!response.ok) {
@@ -43,7 +63,7 @@ export function MovieSearch() {
     }
   };
 
-  const throttledSearch = debounce(handleSearch, 1500);
+  const throttledSearch = throttle(handleSearch, 1500);
 
   useEffect(() => {
     return () => {
@@ -74,14 +94,12 @@ export function MovieSearch() {
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)} variant="outline">
-        <MagnifyingGlassIcon className="h-4 w-4 mr-2" /> Recherche
-      </Button>
+      <div onClick={() => setOpen(true)}>{children}</div>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Input
           className="h-12"
           type="text"
-          placeholder="Recherche par nom..."
+          placeholder={`Recherche par nom en ${getLanguageString(language)}...`}
           value={searchQuery}
           onChange={(e) => handleInputChange(e)}
         />
@@ -97,14 +115,18 @@ export function MovieSearch() {
                   key={movie.id}
                   onSelect={() => redirectToMovie(movie.id)}
                 >
-                  <Image
-                    src={movieImg}
-                    alt={movie.title}
-                    width={400}
-                    height={400}
-                    className={"h-auto w-auto object-cover mr-2 aspect-[3/4]"}
-                  />
-                  {movie.title} ({movie.release_date.split("-")[0]})
+                  <div className="w-[46px] h-[69px] bg-primary/10 mr-2 ">
+                    <Image
+                      src={movieImg}
+                      alt={movie.title}
+                      width={400}
+                      height={400}
+                      className={"h-auto w-auto object-cover aspect-[3/4]"}
+                    />
+                  </div>
+                  <div className="w-3/4">
+                    {movie.title} ({movie.release_date.split("-")[0]})
+                  </div>
                 </CommandItem>
               );
             })}

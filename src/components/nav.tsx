@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Link from "next/link";
 
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -8,13 +10,19 @@ import { MovieSearch } from "@/components/movie-search";
 
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LoaderCircle, LogOut } from "lucide-react";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 export default function Navigation() {
-  const [_, setIsLoggedIn] = useLocalStorage("isLoggedIn", false);
+  const [, setIsLoggedIn] = useLocalStorage("isLoggedIn", false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoggedIn(false);
+      setIsLoading(false);
+    }, Math.floor(Math.random() * 500) + 500);
   };
 
   return (
@@ -23,11 +31,19 @@ export default function Navigation() {
         <h1 className="font-semibold">☄️ SuperNova</h1>
       </Link>
       <div className="flex gap-2">
-        <MovieSearch />
+        <MovieSearch>
+          <Button variant="secondary">
+            <MagnifyingGlassIcon className="h-4 w-4 mr-2" /> Recherche
+          </Button>
+        </MovieSearch>
         <LanguageSwitcher />
         <ThemeSwitcher />
         <Button onClick={handleLogout} variant="destructive" size="icon">
-          <LogOut className="w-4 h-4" />
+          {isLoading ? (
+            <LoaderCircle className="w-4 h-4 animate-spin" />
+          ) : (
+            <LogOut className="w-4 h-4" />
+          )}
         </Button>
       </div>
     </div>

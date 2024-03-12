@@ -2,18 +2,24 @@ import { useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { LoaderCircle } from "lucide-react";
 
 export default function Login({ onLogin }: { onLogin: any }) {
-  const [password, setPassword] = useState("");
+  const [secret, setSecret] = useState("");
   const [_, setIsLoggedIn] = useLocalStorage("isLoggedIn", false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
-    if (password === "secret") {
-      setIsLoggedIn(true);
-      onLogin();
-    } else {
-      alert("Invalid password");
-    }
+    setIsLoading(true);
+    setTimeout(() => {
+      if (secret === "secret") {
+        setIsLoggedIn(true);
+        onLogin();
+      } else {
+        alert("Invalid password");
+      }
+      setIsLoading(false);
+    }, Math.floor(Math.random() * 500) + 500);
   };
 
   return (
@@ -23,12 +29,16 @@ export default function Login({ onLogin }: { onLogin: any }) {
         <Input
           autoFocus={true}
           type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter a password"
+          value={secret}
+          onChange={(e) => setSecret(e.target.value)}
         />
-        <Button className="w-full" onClick={handleLogin}>
-          Login
+        <Button className="w-full" onClick={handleLogin} disabled={isLoading}>
+          {isLoading ? (
+            <LoaderCircle className="w-4 h-4 animate-spin" />
+          ) : (
+            "Login"
+          )}
         </Button>
       </div>
     </div>

@@ -10,7 +10,7 @@ export const metadata = generateMetadata(
 
 export default function Home() {
   return (
-    <div className="container flex flex-col space-y-8 mt-4">
+    <div className="container flex flex-col space-y-8 mt-4 mb-8">
       <Navigation />
       <PopularMovies />
       <TopRatedMovies />

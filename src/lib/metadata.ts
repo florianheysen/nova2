@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const app = {
-  name: "Movies",
+  name: "SuperNova",
   description: "Free movies",
   keywords: ["free", "movies"],
 };
