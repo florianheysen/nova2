@@ -19,7 +19,7 @@ export default function MovieIframe({ movieId }: MovieIframeProps) {
     setIframeLoaded(true);
   };
 
-  const url_fr = `https://frembed.fun/api/film.php?id=${movieId}`;
+  const url_fr = `https://frembed.pro/api/film.php?id=${movieId}`;
   const url_en = `https://multiembed.mov/?video_id=${movieId}&tmdb=1`;
 
   const iframeUrl = language === "en" ? url_en : url_fr;
@@ -32,7 +32,7 @@ export default function MovieIframe({ movieId }: MovieIframeProps) {
       if (language === "fr") {
         try {
           const response = await fetch(
-            `https://api.frembed.fun/movies/check?id=${movieId}`
+            `https://api.frembed.pro/movies/check?id=${movieId}`
           );
           const data = await response.json();
           if (data.result.Total === 0) {

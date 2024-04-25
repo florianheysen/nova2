@@ -8,6 +8,8 @@ export const metadata = generateMetadata(
   { withSuffix: true }
 );
 
+//TODO: Faire une hero section avec les informations à la Netflix && Quand on clique sur le bouton play, on smooth scroll jusqu'à l'iframe
+
 export default function Page({ params }: { params: { movieId: string } }) {
   return (
     <div className="flex flex-col relative">

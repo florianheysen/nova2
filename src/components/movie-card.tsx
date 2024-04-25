@@ -8,6 +8,8 @@ interface MovieCardProps {
   movie: Movie;
 }
 
+//TODO: Ajouter un wrapper autour des images pour afficher un fond gris le temps que l'image charge
+
 export function MovieCard({ movie }: MovieCardProps) {
   const movieImg = movie.poster_path
     ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`

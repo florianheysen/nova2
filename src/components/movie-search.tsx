@@ -9,12 +9,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import { Movie } from "@/data/movie/types";
 import { throttle } from "lodash";
 import { useRouter } from "next/navigation";
 import { useLocalStorage } from "usehooks-ts";
+
+//TODO: Faire en sorte qu'on puisse cliquer sur pc et sur mobile sur les resultats
 
 export function MovieSearch({ children }: { children: React.ReactNode }) {
   const router = useRouter();
