@@ -8,6 +8,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import QueryProvider from "@/components/providers/query-provider";
 import Login from "@/components/login";
 
+import { Analytics } from "@vercel/analytics/react";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -37,6 +39,7 @@ export default function RootLayout({
           )}
         </ThemeProvider>
       </body>
+      <Analytics />
     </html>
   );
 }
